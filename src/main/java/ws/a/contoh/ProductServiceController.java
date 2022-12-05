@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ProductServiceController {
-    private static Map<String, Product> productRepo = new HashMap<>();
+    
+    private static Map<String, Product> productRepo = new HashMap<>(); ///use a Hashmap to store Product
     static{
         Product honey = new Product();
         honey.setId("1");
@@ -35,30 +36,58 @@ public class ProductServiceController {
         almond.setName("Almond");
         productRepo.put(almond.getId(), almond);
         
+        Product milk = new Product();
+        almond.setId("3");
+        almond.setName("milk");
+        productRepo.put(milk.getId(), milk);
+        
+        
+        
         
     }
     
+    //Delete data
     @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> delete (@PathVariable("id") String id){
         productRepo.remove(id);
         return new ResponseEntity<>("Product is deleted successfully", HttpStatus.OK);
     }
     
+    //edit data
     @RequestMapping(value = "/products/(id)", method =RequestMethod.PUT)
     public ResponseEntity<Object> updateProduct(@PathVariable ("Id") String id, @RequestBody Product product){
-        productRepo.remove(id);
-        product.setId(id);
-        productRepo.put(id, product);
-        return new ResponseEntity<>("Product is updated successfully", HttpStatus.OK);
+        
+        if(productRepo.containsKey(id)){
+            
+            productRepo.remove(id);
+            product.setId(id);
+            productRepo.put(id, product);
+            return new ResponseEntity<>("Product is updated successfully", HttpStatus.OK);
+            
+        }
+        else{
+            return new ResponseEntity<>("data id doesn't exists", HttpStatus.OK);
+        }
+        
         
     }
-    
+        
+    // create data
     @RequestMapping(value = "/products", method = RequestMethod.POST)
     public ResponseEntity<Object> createProduct(@RequestBody Product product){
-        productRepo.put(product.getId(), product);
-        return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
+        
+        if (!productRepo.containsKey(product.getId())){
+            
+            productRepo.put(product.getId(), product);
+            return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
     }
-    
+    else{
+         return new ResponseEntity<>("id already exists, please enter another id", HttpStatus.OK);
+            
+    }
+}
+        
+    //running programs
     @RequestMapping(value = "/products")
     public ResponseEntity<Object> getProduct() {
         return new ResponseEntity<>(productRepo.values(), HttpStatus.OK);
