@@ -26,20 +26,20 @@ public class ProductServiceController {
     
     private static Map<String, Product> productRepo = new HashMap<>(); ///use a Hashmap to store Product
     static{
-        Product honey = new Product();
-        honey.setId("1");
-        honey.setName ("Honey");
-        productRepo.put(honey.getId(), honey);
+        Product honey = new Product(); //membuat new product dan memanggil file Product.java
+        honey.setId("1"); // menambahkan id
+        honey.setName ("Honey");// menambahkan nama
+        productRepo.put(honey.getId(), honey); //memasukkan product pada Hashmap
         
-        Product almond = new Product();
-        almond.setId("2");
-        almond.setName("Almond");
-        productRepo.put(almond.getId(), almond);
+        Product almond = new Product(); //membuat new product dan memanggil file Product.java
+        almond.setId("2"); //menambahkan id
+        almond.setName("Almond"); //menambahkan nama
+        productRepo.put(almond.getId(), almond); //memasukkan product pada Hashmap
         
-        Product milk = new Product();
-        almond.setId("3");
-        almond.setName("milk");
-        productRepo.put(milk.getId(), milk);
+        Product milk = new Product();//membuat new product dan memanggil file Product.java
+        almond.setId("3");//menambahkan id
+        almond.setName("milk"); //menambahkan nama
+        productRepo.put(milk.getId(), milk); //memasukkan product pada Hashmap
         
         
         
@@ -49,8 +49,8 @@ public class ProductServiceController {
     //Delete data
     @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> delete (@PathVariable("id") String id){
-        productRepo.remove(id);
-        return new ResponseEntity<>("Product is deleted successfully", HttpStatus.OK);
+        productRepo.remove(id);//hapus data
+        return new ResponseEntity<>("Product is deleted successfully", HttpStatus.OK);//Popup berhasil dihapus
     }
     
     //edit data
@@ -59,14 +59,14 @@ public class ProductServiceController {
         
         if(productRepo.containsKey(id)){
             
-            productRepo.remove(id);
-            product.setId(id);
-            productRepo.put(id, product);
-            return new ResponseEntity<>("Product is updated successfully", HttpStatus.OK);
+            productRepo.remove(id); //membuat variabel hapus 
+            product.setId(id);//set new id
+            productRepo.put(id, product);//menambahkan data ke Hashmap
+            return new ResponseEntity<>("Product is updated successfully", HttpStatus.OK);//Popup berhasil diedit/ubah
             
         }
         else{
-            return new ResponseEntity<>("data id doesn't exists", HttpStatus.OK);
+            return new ResponseEntity<>("data id doesn't exists", HttpStatus.OK);//Popup id tidak ditemukan
         }
         
         
@@ -79,10 +79,10 @@ public class ProductServiceController {
         if (!productRepo.containsKey(product.getId())){
             
             productRepo.put(product.getId(), product);
-            return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);//Popup berhasil
     }
     else{
-         return new ResponseEntity<>("id already exists, please enter another id", HttpStatus.OK);
+         return new ResponseEntity<>("id already exists, please enter another id", HttpStatus.OK);//menampilkan pesan id sudah digunakan didata lain
             
     }
 }
