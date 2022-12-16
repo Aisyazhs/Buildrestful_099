@@ -29,16 +29,35 @@ public class ProductServiceController {
         Product honey = new Product(); //membuat new product dan memanggil file Product.java
         honey.setId("1"); // menambahkan id
         honey.setName ("Honey");// menambahkan nama
+        honey.setPrice (20000);
+        honey.setDiscount(10);
+        
+        int total = honey.getPrice() - (honey.getPrice()*honey.getDiscount()/100);
+        
+        honey.setTotal(total);
         productRepo.put(honey.getId(), honey); //memasukkan product pada Hashmap
         
         Product almond = new Product(); //membuat new product dan memanggil file Product.java
         almond.setId("2"); //menambahkan id
-        almond.setName("Almond"); //menambahkan nama
+        almond.setName("Almond");//menambahkan nama
+        almond.setPrice (10000);
+        almond.setDiscount(10);
+        
+        int total2 = almond.getPrice() - (almond.getPrice()*almond.getDiscount()/100);
+        
+        almond.setTotal(total2);
+        
         productRepo.put(almond.getId(), almond); //memasukkan product pada Hashmap
         
         Product milk = new Product();//membuat new product dan memanggil file Product.java
-        almond.setId("3");//menambahkan id
-        almond.setName("milk"); //menambahkan nama
+        milk.setId("3");//menambahkan id
+        milk.setName("milk"); //menambahkan nama
+        milk.setPrice (30000);
+        milk.setDiscount(5);
+        
+        int total3 = milk.getPrice() - (milk.getPrice()*milk.getDiscount()/100);
+        
+        milk.setTotal(total3);
         productRepo.put(milk.getId(), milk); //memasukkan product pada Hashmap
         
         
@@ -78,10 +97,13 @@ public class ProductServiceController {
         
         if (!productRepo.containsKey(product.getId())){
             
+            int total = product.getPrice() - (product.getPrice()*product.getDiscount()/100);
+            product.setTotal(total);
             productRepo.put(product.getId(), product);
             return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);//Popup berhasil
     }
     else{
+           
          return new ResponseEntity<>("id already exists, please enter another id", HttpStatus.OK);//menampilkan pesan id sudah digunakan didata lain
             
     }
